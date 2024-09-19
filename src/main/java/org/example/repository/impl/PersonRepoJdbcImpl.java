@@ -113,6 +113,25 @@ public class PersonRepoJdbcImpl implements PersonRepository {
 
     @Override
     public Person findById(Long id) {
+        try (DBConnect dbConnect = new DBConnect()) {
+            Connection con = dbConnect.getConnection();
+            PreparedStatement stm = con.prepareStatement("select * from PERSON where ID = ?");
+            stm.setLong(1, id);
+            ResultSet set = stm.executeQuery();
+            while (set.next()){
+                Long id1 = set.getLong(1);
+                String name = set.getString(2);
+                String family = set.getString(3);
+                Date date = set.getDate(4);
+                String email = set.getString(5);
+                String phone = set.getString(6);
+                String address = set.getString(7);
+                return new Person(id1, name, family, date.toLocalDate(), email, phone, address);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
         return null;
     }
 
