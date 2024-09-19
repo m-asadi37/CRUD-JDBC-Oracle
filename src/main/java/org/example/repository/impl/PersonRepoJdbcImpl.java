@@ -12,7 +12,39 @@ public class PersonRepoJdbcImpl implements PersonRepository {
 
     @Override
     public Person save(Person person) {
-        return null;
+
+        try (DBConnect dbConnect = new DBConnect()){
+            Connection con = dbConnect.getConnection();
+
+            //get id
+            Long id = null;
+            Statement stm = con.createStatement();
+            ResultSet idResultSet = stm.executeQuery("select PERSON_SEQ.nextval from dual");
+            if(idResultSet.next())
+                id = idResultSet.getLong(1);
+            else throw new RuntimeException("id seq error!");
+            stm.close();
+
+            //save
+            person.setId(id);
+            PreparedStatement psm = con.prepareStatement(
+                    "insert into PERSON values (?,?,?,?,?,?,?)"
+            );
+            psm.setLong(1, person.getId());
+            psm.setString(2, person.getName());
+            psm.setString(3, person.getFamily());
+            psm.setDate(4, Date.valueOf(person.getBirthDate()));
+            psm.setString(5, person.getEmail());
+            psm.setString(6, person.getPhoneNumber());
+            psm.setString(7, person.getAddress());
+
+            psm.executeUpdate();
+            return person;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -46,9 +78,8 @@ public class PersonRepoJdbcImpl implements PersonRepository {
                 personList.add(p);
             }
 
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
         return personList;
