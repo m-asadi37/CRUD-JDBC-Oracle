@@ -3,6 +3,8 @@ package org.example.controller;
 import org.example.entity.Person;
 import org.example.service.PersonService;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class PersonController {
@@ -70,6 +72,7 @@ public class PersonController {
         String family = scanner.nextLine();
         System.out.print("Enter Birth Date: ");
         String birthDate = scanner.nextLine();
+        LocalDate date = LocalDate.parse(birthDate, DateTimeFormatter.ISO_LOCAL_DATE);
         System.out.print("Enter Email: ");
         String email = scanner.nextLine();
         System.out.print("Enter Phone Number: ");
@@ -77,7 +80,7 @@ public class PersonController {
         System.out.print("Enter Address: ");
         String address = scanner.nextLine();
 
-        Person person = new Person(null, name, family, birthDate, email, phoneNumber, address);
+        Person person = new Person(null, name, family, date, email, phoneNumber, address);
         service.save(person);
         System.out.println("Person added successfully.");
     }
@@ -93,6 +96,7 @@ public class PersonController {
         String family = scanner.nextLine();
         System.out.print("Enter New Birth Date: ");
         String birthDate = scanner.nextLine();
+        LocalDate date = LocalDate.parse(birthDate, DateTimeFormatter.ISO_LOCAL_DATE);
         System.out.print("Enter New Email: ");
         String email = scanner.nextLine();
         System.out.print("Enter New Phone Number: ");
@@ -100,7 +104,7 @@ public class PersonController {
         System.out.print("Enter New Address: ");
         String address = scanner.nextLine();
 
-        Person newPerson = new Person(id, name, family, birthDate, email, phoneNumber, address);
+        Person newPerson = new Person(id, name, family, date, email, phoneNumber, address);
         service.update(id, newPerson);
         System.out.println("Person updated successfully.");
     }

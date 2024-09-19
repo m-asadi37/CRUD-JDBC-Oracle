@@ -1,10 +1,12 @@
 package org.example.entity;
 
+import java.time.LocalDate;
+
 public class Person {
     private Long id;
     private String name;
     private String family;
-    private String birthDate;
+    private LocalDate birthDate;
     private String email;
     private String phoneNumber;
     private String address;
@@ -12,7 +14,7 @@ public class Person {
     // Constructors
     public Person() {}
 
-    public Person(Long id, String name, String family, String birthDate, String email, String phoneNumber, String address) {
+    public Person(Long id, String name, String family, LocalDate birthDate, String email, String phoneNumber, String address) {
         this.id = id;
         this.name = name;
         this.family = family;
@@ -47,11 +49,11 @@ public class Person {
         this.family = family;
     }
 
-    public String getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
