@@ -48,8 +48,26 @@ public class PersonRepoJdbcImpl implements PersonRepository {
     }
 
     @Override
-    public Person update(Long id, Person newPerson) {
-        return null;
+    public boolean update(Long id, Person newPerson) {
+        try (DBConnect dbConnect = new DBConnect()){
+            Connection con = dbConnect.getConnection();
+            PreparedStatement psm = con.prepareStatement(
+                    "update PERSON set NAME=?, FAMILY=?, BIRTH_DATE=?, EMAIL=?, PHONE=?, ADDRESS=? where ID=?"
+            );
+            psm.setString(1, newPerson.getName());
+            psm.setString(2, newPerson.getFamily());
+            psm.setDate(3, Date.valueOf(newPerson.getBirthDate()));
+            psm.setString(4, newPerson.getEmail());
+            psm.setString(5, newPerson.getPhoneNumber());
+            psm.setString(6, newPerson.getAddress());
+            psm.setLong(7, id);
+
+            int result = psm.executeUpdate();
+            return (result == 1);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

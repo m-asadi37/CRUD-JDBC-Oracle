@@ -25,7 +25,7 @@ public class PersonService {
         return repository.save(person);
     }
 
-    public Person update(Long id, Person newPerson) throws Exception {
+    public boolean update(Long id, Person newPerson) throws Exception {
         if (newPerson.getPhoneNumber().length() != 11) {
             throw new Exception("The phone number must be 11 digits.");
         }

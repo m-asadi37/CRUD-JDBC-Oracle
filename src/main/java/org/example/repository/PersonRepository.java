@@ -7,7 +7,7 @@ import java.util.List;
 public interface PersonRepository {
 
     Person save(Person person);
-    Person update(Long id, Person newPerson);
+    boolean update(Long id, Person newPerson);
     boolean delete(Long id);
     List<Person> findAll();
     Person findById(Long id);

@@ -105,8 +105,10 @@ public class PersonController {
         String address = scanner.nextLine();
 
         Person newPerson = new Person(id, name, family, date, email, phoneNumber, address);
-        service.update(id, newPerson);
-        System.out.println("Person updated successfully.");
+        if(service.update(id, newPerson))
+            System.out.println("Person updated successfully.");
+        else
+            System.out.println("Person not found.");
     }
 
     private void deletePerson(Scanner scanner) {

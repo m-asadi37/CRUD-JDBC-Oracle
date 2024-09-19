@@ -16,7 +16,7 @@ public class PersonRepoJavaImpl implements PersonRepository {
         return person;
     }
 
-    public Person update(Long id, Person newPerson) {
+    public boolean update(Long id, Person newPerson) {
         for (Person person : persons) {
             if (person.getId().equals(id)) {
                 person.setName(newPerson.getName());
@@ -25,10 +25,10 @@ public class PersonRepoJavaImpl implements PersonRepository {
                 person.setEmail(newPerson.getEmail());
                 person.setPhoneNumber(newPerson.getPhoneNumber());
                 person.setAddress(newPerson.getAddress());
-                return person;
+                return true;
             }
         }
-        return null;
+        return false;
     }
 
     public boolean delete(Long id) {
