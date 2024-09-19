@@ -54,7 +54,15 @@ public class PersonRepoJdbcImpl implements PersonRepository {
 
     @Override
     public boolean delete(Long id) {
-        return false;
+        try (DBConnect dbConnect = new DBConnect()){
+            Connection con = dbConnect.getConnection();
+            PreparedStatement stm = con.prepareStatement("delete from person where id = ?");
+            stm.setLong(1, id);
+            int result = stm.executeUpdate();
+            return result == 1;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
